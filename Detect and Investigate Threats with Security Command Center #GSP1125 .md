@@ -82,7 +82,7 @@ done
 ```cmd
 kubectl create deployment apache-deployment \
 --replicas=1 \
---image=$REGION-docker.pkg.dev/cloud-training-prod-bucket/scc-labs/ktd-test-httpd:2.4.49-vulnerable
+--image=us-central1-docker.pkg.dev/cloud-training-prod-bucket/scc-labs/ktd-test-httpd:2.4.49-vulnerable
 kubectl expose deployment apache-deployment \
 --name apache-test-service  \
 --type NodePort \
