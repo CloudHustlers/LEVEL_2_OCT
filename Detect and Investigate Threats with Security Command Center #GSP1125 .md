@@ -47,6 +47,7 @@ TASK_5_IP=
 ```
 ```cmd
 export ZONE=us-central1-c
+export REGION=${ZONE::-2}
 sudo snap remove google-cloud-cli
 curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-438.0.0-linux-x86_64.tar.gz
 tar -xf google-cloud-cli-438.0.0-linux-x86_64.tar.gz
@@ -81,7 +82,7 @@ done
 ```cmd
 kubectl create deployment apache-deployment \
 --replicas=1 \
---image=us-central1-docker.pkg.dev/cloud-training-prod-bucket/scc-labs/ktd-test-httpd:2.4.49-vulnerable
+--image=$REGION-docker.pkg.dev/cloud-training-prod-bucket/scc-labs/ktd-test-httpd:2.4.49-vulnerable
 kubectl expose deployment apache-deployment \
 --name apache-test-service  \
 --type NodePort \
